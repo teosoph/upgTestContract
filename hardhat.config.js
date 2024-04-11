@@ -1,39 +1,37 @@
-require('@openzeppelin/hardhat-upgrades');
+require("@openzeppelin/hardhat-upgrades");
 require("@nomicfoundation/hardhat-toolbox");
-// dotenv.config();
 require("dotenv").config();
+
+const MNEMONIC = process.env.MNEMONIC;
+const API_KEY = process.env.API_KEY_INFURA_ETHEREUM_SEPOLIA;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.24",
-  networks: {
-    localhost: {},
-    mumbai: {
-      url: process.env.MUMBAI_URLL || "https://rpc-mumbai.maticvigil.com",
-      accounts: [process.env.PRIVATE_KEY],
-      // url: process.env.RPC_URL,
-      // accounts: [process.env.PRIVATE_KEY],
-    },
+  paths: {
+    tests: "./tests",
   },
   etherscan: {
-    apiKey: process.env.POLYGONSCAN_API_KEY,
+    apiKey: ETHERSCAN_API_KEY,
+  },
+  networks: {
+    hardhat: {
+      accounts: {
+        mnemonic: MNEMONIC,
+        path: "m/44'/60'/0'/0",
+        initialIndex: 0,
+        count: 20,
+      },
+    },
+    localhost: {
+      url: "http://127.0.0.1:8545/",
+    },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${API_KEY}`,
+      accounts: {
+        mnemonic: MNEMONIC,
+      },
+    },
   },
 };
-
-// require("@nomiclabs/hardhat-ethers");
-// require("@openzeppelin/hardhat-upgrades");
-// require("@nomiclabs/hardhat-etherscan");
-// require('dotenv').config()
-
-// module.exports = {
-//   solidity: "0.8.24",
-//   networks: {
-//     mumbai: {
-//       url: process.env.RPC_URL,
-//       accounts: [process.env.PRIVATE_KEY],
-//     },
-//   },
-//   etherscan: {
-//     apiKey: process.env.ETHERSCAN_API_KEY,
-//   }
-// };
